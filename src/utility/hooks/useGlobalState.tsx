@@ -12,7 +12,7 @@ export const useGlobalState = () => {
 
   const getData = async () => {
     // Fetch data from assets/data/[books, properties, types].json
-    const books = await fetch(`${process.env.PUBLIC_URL}/data/books.json}`);
+    const books = await fetch(`${process.env.PUBLIC_URL}/data/books.json`);
     const booksData = await books.json();
     const properties = await fetch(`${process.env.PUBLIC_URL}/data/properties.json`);
     const propertiesData = await properties.json();
