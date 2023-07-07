@@ -12,11 +12,11 @@ export const useGlobalState = () => {
 
   const getData = async () => {
     // Fetch data from assets/data/[books, properties, types].json
-    const books = await fetch(`${process.env.PUBLIC_URL}/data/books.json`);
+    const books = await fetch('/data/books.json');
     const booksData = await books.json();
-    const properties = await fetch(`${process.env.PUBLIC_URL}/data/properties.json`);
+    const properties = await fetch('/data/properties.json');
     const propertiesData = await properties.json();
-    const types = await fetch(`${process.env.PUBLIC_URL}/data/types.json`);
+    const types = await fetch('/data/types.json');
     const typesData = await types.json();
     // Set data to local storage
     addItemLocalStorage('objects', booksData);
