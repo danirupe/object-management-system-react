@@ -1,0 +1,38 @@
+[
+  {
+    "id": "690e64f8-86ea-48aa-9e6a-5b010a7d3072",
+    "type": "3bde7794-f1e9-4314-93f0-97a3b4b134ef",
+    "propertyName": "Title",
+    "propertyValue": ""
+  },
+  {
+    "id": "59d5853f-a0ae-4520-b434-1febff8ddda8",
+    "type": "3bde7794-f1e9-4314-93f0-97a3b4b134ef",
+    "propertyName": "Subtitle",
+    "propertyValue": ""
+  },
+  {
+    "id":"2d252135-7ce1-4724-a22c-f19480bf6181",
+    "type":"3bde7794-f1e9-4314-93f0-97a3b4b134ef",
+    "propertyName":"isbn",
+    "propertyValue":""
+  },
+  {
+    "id":"3aacf9a6-55be-4b13-8f25-6dbc55e8b3dc",
+    "type":"3bde7794-f1e9-4314-93f0-97a3b4b134ef",
+    "propertyName":"Price",
+    "propertyValue":""
+  },
+  {
+    "id":"39225c78-b229-4b54-8e2e-4d42fda2ad5f",
+    "type":"3bde7794-f1e9-4314-93f0-97a3b4b134ef",
+    "propertyName":"Authors",
+    "propertyValue":""
+  },
+  {
+    "id":"4190b610-f9f0-42c1-944f-35759bdb28bd",
+    "type":"3bde7794-f1e9-4314-93f0-97a3b4b134ef",
+    "propertyName":"Language",
+    "propertyValue":""
+  }
+]

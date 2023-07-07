@@ -1,0 +1,42 @@
+[
+  {
+    "id": "1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed",
+    "Title": "An Introduction to C & GUI Programming, 2nd Edition",
+    "Subtitle": "",
+    "isbn": "9781912047451",
+    "Price": "14.92€",
+    "Authors": "Simon Long",
+    "Language": "English",
+    "type": "3bde7794-f1e9-4314-93f0-97a3b4b134ef"
+    },
+  {
+    "id": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+    "Title": "Snowflake: The Definitive Guide",
+    "Subtitle": "Architecting, Designing, and Deploying on the Snowflake Data Cloud",
+    "isbn": "9781098103828",
+    "Price": "39.99€",
+    "Authors": "Joyce Kay Avila",
+    "Language": "English",
+    "type": "3bde7794-f1e9-4314-93f0-97a3b4b134ef"
+  },
+  {
+    "id": "6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b",
+    "Title": "Python for Data Analysis, 3rd Edition",
+    "Subtitle": "Data Wrangling with Pandas, NumPy, and IPython",
+    "isbn": "9781098104030",
+    "Price": "36.18€",
+    "Authors": "Wes McKinney",
+    "Language": "English",
+    "type": "3bde7794-f1e9-4314-93f0-97a3b4b134ef"
+  },
+  {
+    "id": "7b52009b-64fd-4e7a-bf2e-8f3d538d7e9d",
+    "Title": "Data Visualization with Python and JavaScript, 2nd Edition",
+    "Subtitle": "Scrape, Clean, Explore, and Transform Your Data",
+    "isbn": "9781098111878",
+    "Price": "60.99€",
+    "Authors": "Kyran Dale",
+    "Language": "English",
+    "type": "3bde7794-f1e9-4314-93f0-97a3b4b134ef"
+  }
+]
