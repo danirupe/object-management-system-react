@@ -38,6 +38,9 @@ export const globalSlice = createSlice({
   name: 'objects',
   initialState,
   reducers: {
+    onSetObjects: (state, { payload }) => {
+      state.objects = payload;
+    },
     onAddNewObject: (state, { payload }) => {
       state.objects.push(payload);
     },
@@ -74,6 +77,7 @@ export const globalSlice = createSlice({
       state.properties.push(payload);
     },
     onSetActiveProperty: (state, { payload }) => {
+      console.log(payload)
       state.activeProperty = payload;
     },
     onUpdateProperty: (state, { payload }) => {
@@ -88,6 +92,7 @@ export const globalSlice = createSlice({
 });
 
 export const { 
+  onSetObjects,
   onAddNewObject,
   onSetActiveObject,
   onUpdateObject,

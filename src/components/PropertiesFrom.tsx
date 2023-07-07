@@ -13,14 +13,16 @@ const defaultValues: ITypeProperties = {
 
 export const PropertiesFrom = () => {
   const [edit, setEdit] = useState(false);
+  const [oldPropertyName, setOldPropertyName] = useState('');
   const [selectedType, setSelectedType] = useState('')
-  const { addNewProperty, updateProperty, activeProperty, setActiveProperty, types } = useGlobalState();
+  const { addNewProperty, updatePropertyRecursive, activeProperty, setActiveProperty, types } = useGlobalState();
   const { control, reset, handleSubmit, setValue } = useForm<ITypeProperties>({defaultValues});
 
   useEffect(() => {
-    if (!activeProperty) return
-    setValue('propertyName', activeProperty.propertyName)
-    setValue('propertyValue', activeProperty.propertyValue)
+    if (!activeProperty) return;
+    setValue('propertyName', activeProperty.propertyName);
+    setValue('propertyValue', activeProperty.propertyValue);
+    setOldPropertyName(activeProperty.propertyName);
   }, [activeProperty])
 
   useEffect(() => {
@@ -37,7 +39,7 @@ export const PropertiesFrom = () => {
         type: activeProperty.type,
         id: activeProperty.id
       }
-      updateProperty(property);
+      updatePropertyRecursive(property, oldPropertyName);
     } else {
       // Create property
       const property = {

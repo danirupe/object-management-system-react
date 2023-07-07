@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { onAddNewObject, onSetActiveObject, onUpdateObject, onDeleteObject, onAddNewType, onSetActiveType, onUpdateType, onDeleteType, onAddNewProperty, onSetActiveProperty, onUpdateProperty, onDeleteProperty } from "../../store/globalSlice";
+import { onSetObjects, onAddNewObject, onSetActiveObject, onUpdateObject, onDeleteObject, onAddNewType, onSetActiveType, onUpdateType, onDeleteType, onAddNewProperty, onSetActiveProperty, onUpdateProperty, onDeleteProperty } from "../../store/globalSlice";
 import { IObjectData } from "../../models/object";
 import { IStore } from "../../models/store";
 import { IType, ITypeProperties } from "../../models/type";
@@ -7,8 +7,22 @@ import { useLocalStorage } from "./useLocalStorage";
 
 export const useGlobalState = () => {
   const dispatch = useDispatch();
-  const { updateItemLocalStorageKey, addItemLocalStorageKey, removeItemLocalStorageKey } = useLocalStorage();
+  const { updateItemLocalStorageKey, addItemLocalStorageKey, removeItemLocalStorageKey, addItemLocalStorage } = useLocalStorage();
   const { objects, activeObject, types, activeType, properties, activeProperty } = useSelector((state: IStore) => state.globalState);
+
+  const getData = async () => {
+    // Fetch data from assets/data/[books, properties, types].json
+    const books = await fetch('src/assets/data/books.json');
+    const booksData = await books.json();
+    const properties = await fetch('src/assets/data/properties.json');
+    const propertiesData = await properties.json();
+    const types = await fetch('src/assets/data/types.json');
+    const typesData = await types.json();
+    // Set data to local storage
+    addItemLocalStorage('objects', booksData);
+    addItemLocalStorage('properties', propertiesData);
+    addItemLocalStorage('types', typesData);
+  }
 
   // ** Objects
   const addNewObject = (object: IObjectData) => {
@@ -17,8 +31,12 @@ export const useGlobalState = () => {
   }
 
   const setActiveObject = (objectId: string | null) => {
-    const object = objects.find(object => object.id === objectId);
-    dispatch(onSetActiveObject(object));
+    if (!objectId) {
+      dispatch(onSetActiveObject(null));
+    } else {
+      const object = objects.find(object => object.id === objectId);
+      dispatch(onSetActiveObject(object));
+    }
   }
 
   const updateObject = (object: IObjectData) => {
@@ -38,8 +56,12 @@ export const useGlobalState = () => {
   }
 
   const setActiveType = (typeId: string | null) => {
-    const type = types.find(type => type.id === typeId);
-    dispatch(onSetActiveType(type));
+    if (!typeId) {
+      dispatch(onSetActiveType(null));
+    } else {
+      const type = types.find(type => type.id === typeId);
+      dispatch(onSetActiveType(type));
+    }
   }
 
   const updateType = (type: IType) => {
@@ -55,7 +77,7 @@ export const useGlobalState = () => {
   { /* 
     Deleting a type should also delete all the objects and properties that are related to that type.
   */ } 
-  const deleteRecursive = (type: IType) => {
+  const deleteTypeRecursive = (type: IType) => {
     removeItemLocalStorageKey('types', type);
     dispatch(onDeleteType(type));
     const objectsToDelete = objects.filter(object => object.type === type.id);
@@ -77,8 +99,12 @@ export const useGlobalState = () => {
   }
 
   const setActiveProperty = (propertyId: string | null) => {
-    const property = properties.find(property => property.id === propertyId);
-    dispatch(onSetActiveProperty(property));
+    if (!propertyId) {
+      dispatch(onSetActiveProperty(null));
+    } else {
+      const property = properties.find(property => property.id === propertyId);
+      dispatch(onSetActiveProperty(property));
+    }
   }
 
   const updateProperty = (property: ITypeProperties) => {
@@ -86,7 +112,45 @@ export const useGlobalState = () => {
     dispatch(onUpdateProperty(property));
   }
 
+  const updatePropertyRecursive = (property: ITypeProperties, oldProperty: string) => {
+    // Update all objects that have the property we want to update
+    const propertyName = property.propertyName;
+
+    const modifiedObjects: IObjectData[] = objects.map((object: IObjectData): IObjectData => {
+      if (object.hasOwnProperty(oldProperty)) {
+        // New object with the updated property and without the old property
+        const { [oldProperty]: _, ...newObject } = object;
+        return { ...newObject, [propertyName]: object[oldProperty] } as IObjectData;
+      }
+      // If the object does not have the property we want to update, return the object as it is
+      return object;
+    });
+    updateItemLocalStorageKey('properties', property);
+    dispatch(onUpdateProperty(property));
+    addItemLocalStorage('objects', modifiedObjects);
+    dispatch(onSetObjects(modifiedObjects));
+  }
+
   const deleteProperty = (property: ITypeProperties) => {
+    removeItemLocalStorageKey('properties', property);
+    dispatch(onDeleteProperty(property));
+  }
+
+  // Delete a property must delete that property from all objects
+  const deletePropertyRecursive = (property: ITypeProperties) => {
+    const propertyName = property.propertyName;
+    
+    const modifiedObjects: IObjectData[] = objects.map((object: IObjectData): IObjectData => {
+      if (object.hasOwnProperty(propertyName)) {
+        // new object without the property we want to delete
+        const { [propertyName]: _, ...newObject } = object;
+        return newObject as IObjectData;
+      }
+      // If the object does not have the property we want to delete, return the object as it is
+      return object;
+    });
+    addItemLocalStorage('objects', modifiedObjects);
+    dispatch(onSetObjects(modifiedObjects));
     removeItemLocalStorageKey('properties', property);
     dispatch(onDeleteProperty(property));
   }
@@ -98,6 +162,7 @@ export const useGlobalState = () => {
     activeType,
     properties,
     activeProperty,
+    getData,
     addNewObject,
     setActiveObject,
     updateObject,
@@ -106,10 +171,12 @@ export const useGlobalState = () => {
     setActiveType,
     updateType,
     deleteType,
-    deleteRecursive,
+    deleteTypeRecursive,
     addNewProperty,
     setActiveProperty,
     updateProperty,
-    deleteProperty
+    updatePropertyRecursive,
+    deleteProperty,
+    deletePropertyRecursive
   }
 }

@@ -26,6 +26,10 @@ export const useLocalStorage = () => {
     window.localStorage.setItem(key, JSON.stringify(newData));
   }
 
+  const addItemLocalStorage = (key: string, value: IObjectData | IObjectData[] | ITypeProperties | IType) => {
+    window.localStorage.setItem(key, JSON.stringify(value));
+  }
+
   const getLocalStorage = (key: string) => {
     const data = window.localStorage.getItem(key);
     return data ? JSON.parse(data) : [];
@@ -39,6 +43,7 @@ export const useLocalStorage = () => {
     addItemLocalStorageKey,
     updateItemLocalStorageKey,
     removeItemLocalStorageKey,
+    addItemLocalStorage,
     getLocalStorage,
     removeLocalStorage
   }

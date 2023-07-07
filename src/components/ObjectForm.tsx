@@ -6,8 +6,6 @@ import { useEffect, useState } from "react";
 
 const defaultValues: IObjectData = {
   id: '',
-  name: '',
-  description: '',
   type: ''
 }
 
@@ -42,8 +40,7 @@ export const ObjectForm = () => {
       updateObject(object);
     } else {
       // Create object
-
-      {/* Object without properties that have undefined value */}
+      // Object without properties that have undefined value
       const filteredObject = Object.keys(data).reduce((object, key) => {
         if (data[key] !== undefined) {
           object[key] = data[key]
@@ -103,18 +100,6 @@ export const ObjectForm = () => {
               {
                 selectedType.length !== 0 && (
                   <>
-                    <Controller
-                      name="name"
-                      control={control}
-                      rules={{ required: true }}
-                      render={({ field }) => <input className="block bg-white w-full border border-slate-300 rounded-md py-2 pl-3 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm placeholder:italic placeholder:text-slate-400" placeholder="Name" {...field} />}
-                    />
-                    <Controller
-                      name="description"
-                      control={control}
-                      rules={{ required: true }}
-                      render={({ field }) => <input className="block bg-white w-full border border-slate-300 rounded-md py-2 pl-3 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm placeholder:italic placeholder:text-slate-400" placeholder="Description" {...field} />}
-                    />
                     {/* Show properties based on the selected type */}
                     {
                       properties.filter(property => property.type === selectedType).map(property => (
